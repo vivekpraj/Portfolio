@@ -259,7 +259,7 @@ nav{
 .pm-cs .wip{background:var(--pm)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.1}}
 .cs-foot-txt{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:0.08em;text-transform:uppercase;opacity:.6}
-.cs-link{font-family:var(--mono);font-size:8px;letter-spacing:0.06em;text-decoration:none;margin-left:auto;padding:3px 12px;border:1px solid}
+.cs-link{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;text-decoration:none;margin-left:auto;padding:7px 18px;border:1px solid}
 .ai-cs .cs-link{color:var(--ai);border-color:rgba(168,85,247,0.3)}
 .pm-cs .cs-link{color:var(--pm);border-color:rgba(234,88,12,0.3)}
 .cs-link:hover{opacity:.7}
@@ -328,9 +328,8 @@ nav{
 footer{padding:14px 48px;border-top:1px solid var(--ink3);background:var(--bg2);display:flex;justify-content:space-between;align-items:center}
 footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:0.1em;text-transform:uppercase;opacity:.5}
 
-/* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .55s ease}
-.reveal.in{opacity:1;transform:none}
+/* ── REVEAL — handled by GSAP ── */
+.reveal{opacity:0}
 
 /* card position context for chevron */
 .d-ai,.d-pm{position:relative}
@@ -518,7 +517,7 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
 <div id="cur"></div>
 
 <nav>
-  <a href="#" class="n-name">VIVEK <span>PRAJAPATI</span></a>
+  <a href="#hero" class="n-name">VIVEK <span>PRAJAPATI</span></a>
   <ul class="n-links">
     <li><a href="#work">work</a></li>
     <li><a href="#case-study">case studies</a></li>
@@ -528,7 +527,7 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
 </nav>
 
 <!-- ══ HERO ══ -->
-<section class="hero">
+<section class="hero" id="hero">
   <div class="h-eyebrow">Mumbai · AI Engineer · Product Manager · Open to Work</div>
   <div class="h-name">VIVEK PRAJAPATI</div>
 
@@ -543,7 +542,7 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
         <span class="h-tag ai">LLMs</span>
         <span class="h-tag ai">In Production</span>
       </div>
-      <p class="h-desc">I design and deploy AI systems built to last — not demos. <strong>Full stack: architecture, backend, deployment.</strong> If it runs in production, I own it end to end.</p>
+      <p class="h-desc">I design and deploy AI systems built to last, not demos. <strong>Full stack: architecture, backend, deployment.</strong> If it runs in production, I own it end to end.</p>
     </div>
 
     <!-- divider -->
@@ -563,7 +562,7 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
         <span class="h-tag pm">Adoption</span>
         <span class="h-tag pm">30–40 daily users</span>
       </div>
-      <p class="h-desc">I go from problem discovery to adoption — no hand-off. <strong>I decide what to build, what to cut,</strong> and stay accountable to the result.</p>
+      <p class="h-desc">I go from problem discovery to adoption, no hand-off. <strong>I decide what to build, what to cut,</strong> and stay accountable to the result.</p>
     </div>
   </div>
 
@@ -619,7 +618,7 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
 <!-- ══ STATS ── -->
 <div class="statsbar">
   <div class="statsbar-in">
-    <div class="stat"><div class="stat-n">1 YR</div><div class="stat-l">Production AI</div></div>
+    <div class="stat"><div class="stat-n">14+ months</div><div class="stat-l">Production AI</div></div>
     <div class="stat"><div class="stat-n">4</div><div class="stat-l">Systems Shipped</div></div>
     <div class="stat"><div class="stat-n">ORG-WIDE</div><div class="stat-l">Tool Built &amp; Adopted</div></div>
     <div class="stat"><div class="stat-n">8.45</div><div class="stat-l">CGPA · B.E. Electronics</div></div>
@@ -918,7 +917,7 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
   var tx=window.innerWidth/2,ty=window.innerHeight/2,cx=tx,cy=ty;
   function lerp(a,b,t){return a+(b-a)*t}
   function frame(){
-    cx=lerp(cx,tx,0.2);cy=lerp(cy,ty,0.2);
+    cx=lerp(cx,tx,0.35);cy=lerp(cy,ty,0.35);
     c.style.transform='translate('+(cx-3)+'px,'+(cy-3)+'px)';
     requestAnimationFrame(frame);
   }
@@ -958,6 +957,156 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
     entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
   },{threshold:.07});
   els.forEach(function(el){obs.observe(el)});
+})();
+</script>
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  if(typeof gsap==='undefined')return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* prefers-reduced-motion check */
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    /* just make everything visible instantly */
+    document.querySelectorAll('.reveal').forEach(function(el){el.style.opacity='1'});
+    return;
+  }
+
+  /* ── 1. SECTION-LEVEL REVEALS (replaces IntersectionObserver) ── */
+  document.querySelectorAll('.reveal').forEach(function(el){
+    gsap.fromTo(el,
+      {opacity:0,y:40},
+      {opacity:1,y:0,duration:.8,ease:'power3.out',
+       scrollTrigger:{trigger:el,start:'top 85%',once:true}}
+    );
+  });
+
+  /* ── 2. HERO ENTRANCE — dramatic stagger ── */
+  gsap.set('.h-eyebrow,.h-name,.h-col-ai,.h-col-pm,.h-divider,.h-bottom > *',{opacity:0});
+  var heroTl=gsap.timeline({delay:.1,defaults:{ease:'power3.out'}});
+  heroTl
+    .fromTo('.h-eyebrow',{opacity:0,y:-20},{opacity:1,y:0,duration:.5})
+    .fromTo('.h-name',{opacity:0,y:32,scale:.96},{opacity:1,y:0,scale:1,duration:.7},'-=.2')
+    .fromTo('.h-col-ai',{opacity:0,x:-50},{opacity:1,x:0,duration:.65},'-=.4')
+    .fromTo('.h-col-pm',{opacity:0,x:50},{opacity:1,x:0,duration:.65},'<')
+    .fromTo('.h-divider',{opacity:0,scaleY:0},{opacity:1,scaleY:1,duration:.5,transformOrigin:'top center'},'-=.4')
+    .fromTo('.h-bottom > *',{opacity:0,y:18},{opacity:1,y:0,stagger:.1,duration:.45},'-=.25');
+
+  /* ── 3. DUAL ROW CARDS — left slides from left, right from right ── */
+  document.querySelectorAll('.dual-row').forEach(function(row){
+    var ai=row.querySelector('.d-ai');
+    var pm=row.querySelector('.d-pm');
+    if(ai){
+      gsap.fromTo(ai,{opacity:0,x:-60},{
+        opacity:1,x:0,duration:.7,ease:'power3.out',
+        scrollTrigger:{trigger:row,start:'top 82%',once:true}
+      });
+    }
+    if(pm){
+      gsap.fromTo(pm,{opacity:0,x:60},{
+        opacity:1,x:0,duration:.7,ease:'power3.out',
+        scrollTrigger:{trigger:row,start:'top 82%',once:true}
+      });
+    }
+  });
+
+  /* ── 4. FEATURED CARD — scale up from slightly small ── */
+  gsap.fromTo('.dual-featured',
+    {opacity:0,y:50,scale:.97},
+    {opacity:1,y:0,scale:1,duration:.75,ease:'power3.out',
+     scrollTrigger:{trigger:'.dual-featured',start:'top 82%',once:true}}
+  );
+
+  /* ── 5. SECTION HEADINGS ── */
+  document.querySelectorAll('.sec-h').forEach(function(el){
+    gsap.fromTo(el,
+      {opacity:0,y:28,clipPath:'inset(0 0 100% 0)'},
+      {opacity:1,y:0,clipPath:'inset(0 0 0% 0)',duration:.65,ease:'power3.out',
+       scrollTrigger:{trigger:el,start:'top 88%',once:true}}
+    );
+  });
+
+  /* ── 6. STAT COUNTER COUNT-UP ── */
+  document.querySelectorAll('.stat-n').forEach(function(el){
+    var txt=el.textContent.trim();
+    var num=parseFloat(txt.replace(/[^0-9.]/g,''));
+    if(isNaN(num))return;
+    var suffix=txt.replace(/[0-9.]/g,'').trim();
+    var isInt=Number.isInteger(num);
+    var obj={val:0};
+    ScrollTrigger.create({
+      trigger:el,start:'top 90%',once:true,
+      onEnter:function(){
+        gsap.to(obj,{val:num,duration:1.6,ease:'power2.out',
+          onUpdate:function(){
+            el.textContent=(isInt?Math.round(obj.val):obj.val.toFixed(2))+suffix;
+          }
+        });
+      }
+    });
+  });
+
+  /* ── 7. CASE STUDY CARDS ── */
+  document.querySelectorAll('.cs').forEach(function(el,i){
+    gsap.fromTo(el,
+      {opacity:0,y:50},
+      {opacity:1,y:0,duration:.7,ease:'power3.out',delay:i*0.1,
+       scrollTrigger:{trigger:el,start:'top 85%',once:true}}
+    );
+  });
+
+  /* ── 8. EXPERIENCE ROWS ── */
+  document.querySelectorAll('.exp-row').forEach(function(el,i){
+    gsap.fromTo(el,
+      {opacity:0,x:-40},
+      {opacity:1,x:0,duration:.6,ease:'power3.out',delay:i*0.08,
+       scrollTrigger:{trigger:el,start:'top 88%',once:true}}
+    );
+  });
+
+  /* ── 9. SKILLS TAGS STAGGER ── */
+  gsap.fromTo('.sk-dual',
+    {opacity:0,y:40},
+    {opacity:1,y:0,duration:.7,ease:'power3.out',
+     scrollTrigger:{trigger:'.sk-dual',start:'top 85%',once:true}}
+  );
+  ScrollTrigger.create({
+    trigger:'.sk-dual',start:'top 75%',once:true,
+    onEnter:function(){
+      gsap.fromTo('.sk-tag',
+        {opacity:0,scale:.85},
+        {opacity:1,scale:1,stagger:.03,duration:.35,ease:'back.out(1.4)'}
+      );
+    }
+  });
+
+  /* ── 10. END SECTION ── */
+  gsap.fromTo('.end-big',
+    {opacity:0,y:36},
+    {opacity:1,y:0,duration:.8,ease:'power3.out',
+     scrollTrigger:{trigger:'.end-big',start:'top 88%',once:true}}
+  );
+  document.querySelectorAll('.end-card').forEach(function(el,i){
+    gsap.fromTo(el,
+      {opacity:0,y:24},
+      {opacity:1,y:0,duration:.5,ease:'power3.out',delay:i*0.12,
+       scrollTrigger:{trigger:el,start:'top 90%',once:true}}
+    );
+  });
+
+  /* ── 11. CARD HOVER LIFT ── */
+  document.querySelectorAll('.d-ai,.d-pm,.dual-featured').forEach(function(card){
+    card.addEventListener('mouseenter',function(){
+      gsap.to(card,{y:-4,duration:.22,ease:'power2.out'});
+    });
+    card.addEventListener('mouseleave',function(){
+      gsap.to(card,{y:0,duration:.22,ease:'power2.out'});
+    });
+  });
+
 })();
 </script>
 </body>
