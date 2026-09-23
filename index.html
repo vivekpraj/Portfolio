@@ -175,6 +175,19 @@ nav{
 
 /* ── DUAL GRID — main layout device ── */
 /* each row: ai card left, pm card right, always visible together */
+.dual-featured{
+  border:1px solid var(--ink3);border-left:3px solid var(--ai);
+  margin-bottom:1px;padding:32px;
+}
+.dual-featured .d-label{
+  font-family:var(--mono);font-size:8px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--ai);margin-bottom:14px;display:flex;align-items:center;gap:6px;
+}
+.dual-featured .d-label::before{content:'◆';font-size:5px;opacity:.6}
+.dual-featured .d-h{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.4}
+.dual-featured .d-sub{font-family:var(--mono);font-size:10px;color:var(--ink2);letter-spacing:0.06em;margin-bottom:10px;opacity:.7}
+.dual-featured .d-body{font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:14px}
+.dual-featured .d-body strong{color:var(--ink);font-weight:600}
 .dual-row{
   display:grid;grid-template-columns:1fr 1fr;
   border:1px solid var(--ink3);margin-bottom:1px;
@@ -663,25 +676,22 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
       <button class="m-expand" onclick="this.closest('.dual-row').classList.toggle('open');this.textContent=this.closest('.dual-row').classList.contains('open')?'— collapse':'+ full detail'">+ full detail</button>
     </div>
 
-    <div class="dual-row" data-num="03-b">
-      <div class="d-ai">
-        <div class="d-label">Project · 2025</div>
-        <div class="d-h">AutoStream — Conversational AI Agent</div>
-        <div class="d-sub">LangGraph · LangChain · Google Gemini · RAG</div>
-        <p class="d-body">Agentic sales assistant with RAG-based Q&amp;A, <strong>intent detection mid-conversation</strong>, and lead collection via state machine — greeting → retrieval → intent → CRM write.</p>
-        <div class="d-tags"><span class="d-tag">LangGraph</span><span class="d-tag">Gemini</span><span class="d-tag">Agentic</span><span class="d-tag">RAG</span></div>
-      </div>
-      <div class="d-pm" style="visibility:hidden"></div>
-      <button class="m-expand" onclick="this.closest('.dual-row').classList.toggle('open');this.textContent=this.closest('.dual-row').classList.contains('open')?'— collapse':'+ full detail'">+ full detail</button>
+    <!-- Full-width featured row -->
+    <div class="dual-featured">
+      <div class="d-label">Project · 2025 · AMPM Network</div>
+      <div class="d-h">Article → Video Pipeline</div>
+      <div class="d-sub">Claude Sonnet · Llama 3.3-70B · Seedance 2.0 · ElevenLabs · HeyGen · FFmpeg</div>
+      <p class="d-body">Article URL → fully automated video. <strong>Multi-LLM orchestration</strong> handles fetch, summarization, beat classification, persona assignment, and media assembly end-to-end. Supports 4 formats: vertical reel, split-screen, dialogue drama, and lipsync.</p>
+      <div class="d-tags"><span class="d-tag">Orchestration</span><span class="d-tag">Multi-LLM</span><span class="d-tag">FFmpeg</span><span class="d-tag">4 Formats</span><span class="d-tag">ElevenLabs</span><span class="d-tag">HeyGen</span></div>
     </div>
 
     <div class="dual-row" data-num="03-new">
       <div class="d-ai">
-        <div class="d-label">Project · 2025 · AMPM Network</div>
-        <div class="d-h">Article → Video Pipeline</div>
-        <div class="d-sub">Claude Sonnet · Llama 3.3-70B · Seedance 2.0 · ElevenLabs · HeyGen</div>
-        <p class="d-body">Article URL → fully automated video. <strong>Multi-LLM orchestration</strong> handles fetch, summarization, beat classification, script generation, and media assembly end-to-end.</p>
-        <div class="d-tags"><span class="d-tag">Orchestration</span><span class="d-tag">Multi-LLM</span><span class="d-tag">FFmpeg</span><span class="d-tag">4 Formats</span></div>
+        <div class="d-label">Project · 2025</div>
+        <div class="d-h">AutoStream — AI Sales Agent</div>
+        <div class="d-sub">LangGraph · LangChain · Google Gemini · RAG</div>
+        <p class="d-body">Agentic sales assistant with RAG-based Q&amp;A, <strong>intent detection mid-conversation</strong>, and lead collection via state machine — greeting → retrieval → intent → CRM write.</p>
+        <div class="d-tags"><span class="d-tag">LangGraph</span><span class="d-tag">Gemini</span><span class="d-tag">Agentic</span><span class="d-tag">RAG</span></div>
       </div>
       <div class="d-pm">
         <div class="d-label">Project · 2025 · AMPM Network</div>
