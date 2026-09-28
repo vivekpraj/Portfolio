@@ -662,7 +662,7 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
       <div class="d-ai">
         <div class="d-label">Project · 2025 · Asynk</div>
         <div class="d-h"><a href="#" target="_blank">reelreports.ai ↗</a></div>
-        <div class="d-sub">FastAPI · FFmpeg · Azure VDB · RAG · Group project</div>
+        <div class="d-sub">FastAPI · FFmpeg · Azure VDB · RAG · Team project</div>
         <p class="d-body">GenAI video platform. PDF chatbot, script generation, <strong>FFmpeg-assembled 1-min business videos</strong> from raw input. Async pipeline end-to-end.</p>
         <div class="d-tags"><span class="d-tag">FastAPI</span><span class="d-tag">FFmpeg</span><span class="d-tag">Azure</span><span class="d-tag">Gen AI</span></div>
       </div>
@@ -962,19 +962,36 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
 </script>
 
 <!-- GSAP + ScrollTrigger -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" onerror="window.__gsapFailed=true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" onerror="window.__gsapFailed=true"></script>
 <script>
+/* Safety net: if GSAP fails or errors, reveal everything */
+function __revealAll(){
+  document.querySelectorAll('.reveal').forEach(function(el){el.style.opacity='1';el.style.transform='none'});
+  var hero=['h-eyebrow','h-name','h-col-ai','h-col-pm','h-divider'];
+  hero.forEach(function(c){
+    document.querySelectorAll('.'+c).forEach(function(el){el.style.opacity='1';el.style.transform='none'});
+  });
+  document.querySelectorAll('.h-bottom > *,.dual-row,.dual-featured,.cs,.exp-row,.sk-dual,.end-card,.sk-tag').forEach(function(el){
+    el.style.opacity='1';el.style.transform='none';
+  });
+}
+/* Fallback timeout — if GSAP hasn't animated after 3s, reveal everything */
+var __gsapTimer=setTimeout(__revealAll, 3000);
+
 (function(){
-  if(typeof gsap==='undefined')return;
+  if(typeof gsap==='undefined'||window.__gsapFailed){__revealAll();return;}
   gsap.registerPlugin(ScrollTrigger);
 
   /* prefers-reduced-motion check */
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-    /* just make everything visible instantly */
-    document.querySelectorAll('.reveal').forEach(function(el){el.style.opacity='1'});
+    __revealAll();
+    clearTimeout(__gsapTimer);
     return;
   }
+
+  clearTimeout(__gsapTimer);
+  try{
 
   /* ── 1. SECTION-LEVEL REVEALS (replaces IntersectionObserver) ── */
   document.querySelectorAll('.reveal').forEach(function(el){
@@ -1107,6 +1124,8 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
       gsap.to(card,{y:0,duration:.22,ease:'power2.out'});
     });
   });
+
+  }catch(e){__revealAll();}
 
 })();
 </script>
