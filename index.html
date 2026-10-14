@@ -474,9 +474,9 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
 
   /* per-card expand — tap d-ai or d-pm individually */
   .d-ai,.d-pm{cursor:pointer}
-  .d-ai.open .d-body,.d-pm.open .d-body{display:block}
-  .d-ai.open .d-tags,.d-pm.open .d-tags{display:flex}
-  .d-ai.open .d-sub,.d-pm.open .d-sub{display:block}
+  .d-ai.open .d-body,.d-pm.open .d-body,.dual-row.open .d-body{display:block}
+  .d-ai.open .d-tags,.d-pm.open .d-tags,.dual-row.open .d-tags{display:flex}
+  .d-ai.open .d-sub,.d-pm.open .d-sub,.dual-row.open .d-sub{display:block}
 
   /* per-card cursor signal */
   .d-ai,.d-pm{cursor:pointer}
@@ -1040,7 +1040,7 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   document.querySelectorAll('.reveal').forEach(function(el){
     gsap.fromTo(el,
       {opacity:0,y:40},
-      {opacity:1,y:0,duration:.8,ease:'power3.out',
+      {opacity:1,y:0,duration:.8,ease:'power3.out',immediateRender:false,
        scrollTrigger:{trigger:el,start:'top 85%',once:true}}
     );
   });
@@ -1054,13 +1054,13 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
     var pm=row.querySelector('.d-pm');
     if(ai){
       gsap.fromTo(ai,{opacity:0,x:-60},{
-        opacity:1,x:0,duration:.7,ease:'power3.out',
+        opacity:1,x:0,duration:.7,ease:'power3.out',immediateRender:false,
         scrollTrigger:{trigger:row,start:'top 82%',once:true}
       });
     }
     if(pm){
       gsap.fromTo(pm,{opacity:0,x:60},{
-        opacity:1,x:0,duration:.7,ease:'power3.out',
+        opacity:1,x:0,duration:.7,ease:'power3.out',immediateRender:false,
         scrollTrigger:{trigger:row,start:'top 82%',once:true}
       });
     }
@@ -1069,7 +1069,7 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   /* ── 4. FEATURED CARD — scale up from slightly small ── */
   gsap.fromTo('.dual-featured',
     {opacity:0,y:50,scale:.97},
-    {opacity:1,y:0,scale:1,duration:.75,ease:'power3.out',
+    {opacity:1,y:0,scale:1,duration:.75,ease:'power3.out',immediateRender:false,
      scrollTrigger:{trigger:'.dual-featured',start:'top 82%',once:true}}
   );
 
@@ -1077,7 +1077,7 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   document.querySelectorAll('.sec-h').forEach(function(el){
     gsap.fromTo(el,
       {opacity:0,y:28,clipPath:'inset(0 0 100% 0)'},
-      {opacity:1,y:0,clipPath:'inset(0 0 0% 0)',duration:.65,ease:'power3.out',
+      {opacity:1,y:0,clipPath:'inset(0 0 0% 0)',duration:.65,ease:'power3.out',immediateRender:false,
        scrollTrigger:{trigger:el,start:'top 88%',once:true}}
     );
   });
@@ -1106,7 +1106,7 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   document.querySelectorAll('.cs').forEach(function(el,i){
     gsap.fromTo(el,
       {opacity:0,y:50},
-      {opacity:1,y:0,duration:.7,ease:'power3.out',delay:i*0.1,
+      {opacity:1,y:0,duration:.7,ease:'power3.out',immediateRender:false,delay:i*0.1,
        scrollTrigger:{trigger:el,start:'top 85%',once:true}}
     );
   });
@@ -1115,7 +1115,7 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   document.querySelectorAll('.exp-row').forEach(function(el,i){
     gsap.fromTo(el,
       {opacity:0,x:-40},
-      {opacity:1,x:0,duration:.6,ease:'power3.out',delay:i*0.08,
+      {opacity:1,x:0,duration:.6,ease:'power3.out',immediateRender:false,delay:i*0.08,
        scrollTrigger:{trigger:el,start:'top 88%',once:true}}
     );
   });
@@ -1123,7 +1123,7 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   /* ── 9. SKILLS TAGS STAGGER ── */
   gsap.fromTo('.sk-dual',
     {opacity:0,y:40},
-    {opacity:1,y:0,duration:.7,ease:'power3.out',
+    {opacity:1,y:0,duration:.7,ease:'power3.out',immediateRender:false,
      scrollTrigger:{trigger:'.sk-dual',start:'top 85%',once:true}}
   );
   ScrollTrigger.create({
@@ -1139,13 +1139,13 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   /* ── 10. END SECTION ── */
   gsap.fromTo('.end-big',
     {opacity:0,y:36},
-    {opacity:1,y:0,duration:.8,ease:'power3.out',
+    {opacity:1,y:0,duration:.8,ease:'power3.out',immediateRender:false,
      scrollTrigger:{trigger:'.end-big',start:'top 88%',once:true}}
   );
   document.querySelectorAll('.end-card').forEach(function(el,i){
     gsap.fromTo(el,
       {opacity:0,y:24},
-      {opacity:1,y:0,duration:.5,ease:'power3.out',delay:i*0.12,
+      {opacity:1,y:0,duration:.5,ease:'power3.out',immediateRender:false,delay:i*0.12,
        scrollTrigger:{trigger:el,start:'top 90%',once:true}}
     );
   });
