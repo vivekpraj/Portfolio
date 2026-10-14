@@ -195,7 +195,9 @@ nav{
   border:1px solid var(--ink3);margin-bottom:1px;
 }
 .dual-row:last-child{margin-bottom:0}
-.d-ai,.d-pm{padding:32px}
+.d-ai,.d-pm{padding:32px;opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease}
+.d-ai.card-in{opacity:1;transform:none}
+.d-pm.card-in{opacity:1;transform:none;transition-delay:.12s}
 .d-ai{border-right:1px solid var(--ink3);border-left:3px solid var(--ai)}
 .d-pm{border-left:3px solid var(--pm)}
 .d-label{
@@ -330,9 +332,8 @@ nav{
 footer{padding:14px 48px;border-top:1px solid var(--ink3);background:var(--bg2);display:flex;justify-content:space-between;align-items:center}
 footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:0.1em;text-transform:uppercase;opacity:.5}
 
-/* ── REVEAL — CSS transition triggered by IntersectionObserver adding .in ── */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
-.reveal.in{opacity:1;transform:none}
+/* ── REVEAL — sections always visible; GSAP handles child animations ── */
+.reveal{}
 
 /* card position context for chevron */
 .d-ai,.d-pm{position:relative}
@@ -997,38 +998,34 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
   },{threshold:.07});
   els.forEach(function(el){obs.observe(el)});
 })();
+
+/* card slide-in */
+(function(){
+  var cards=document.querySelectorAll('.d-ai,.d-pm');
+  if(!cards.length)return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('card-in');obs.unobserve(e.target)}});
+  },{threshold:.1});
+  cards.forEach(function(el){obs.observe(el)});
+})();
 </script>
 
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" onerror="window.__gsapFailed=true"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" onerror="window.__gsapFailed=true"></script>
 <script>
-window.addEventListener('load',function(){
+setTimeout(function(){
   if(typeof gsap==='undefined'||window.__gsapFailed)return;
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   gsap.registerPlugin(ScrollTrigger);
+  var _vis='opacity:1;transform:none';
+  function _show(){document.querySelectorAll('.d-ai,.d-pm,.dual-featured,.sec-h,.cs,.exp-row,.sk-dual,.end-big,.end-card').forEach(function(el){el.style.cssText=_vis});}
   try{
 
   /* ── 1. HERO ENTRANCE — CSS keyframes, .reveal sections handled by IO+CSS ── */
   /* hero is always visible; CSS handles entrance animation; .reveal sections use IO */
 
-  /* ── 3. DUAL ROW CARDS — left slides from left, right from right ── */
-  document.querySelectorAll('.dual-row').forEach(function(row){
-    var ai=row.querySelector('.d-ai');
-    var pm=row.querySelector('.d-pm');
-    if(ai){
-      gsap.fromTo(ai,{opacity:0,x:-60},{
-        opacity:1,x:0,duration:.7,ease:'power3.out',immediateRender:false,
-        scrollTrigger:{trigger:row,start:'top 82%',once:true}
-      });
-    }
-    if(pm){
-      gsap.fromTo(pm,{opacity:0,x:60},{
-        opacity:1,x:0,duration:.7,ease:'power3.out',immediateRender:false,
-        scrollTrigger:{trigger:row,start:'top 82%',once:true}
-      });
-    }
-  });
+  /* ── 3. DUAL ROW CARDS — handled by CSS IntersectionObserver (.card-in) ── */
 
   /* ── 4. FEATURED CARD — scale up from slightly small ── */
   gsap.fromTo('.dual-featured',
@@ -1124,8 +1121,8 @@ window.addEventListener('load',function(){
     });
   });
 
-  }catch(e){}
-});
+  }catch(e){_show();}
+}, 0);
 </script>
 </body>
 </html>
