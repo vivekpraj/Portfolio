@@ -1002,8 +1002,8 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
 (function(){
   if(typeof gsap==='undefined'||window.__gsapFailed){__revealAll();return;}
 
-  /* skip all GSAP on mobile — just show everything */
-  if(window.innerWidth<=820){__revealAll();clearTimeout(__gsapTimer);return;}
+  /* skip all GSAP on phones only */
+  if(window.innerWidth<=600){__revealAll();clearTimeout(__gsapTimer);return;}
 
   gsap.registerPlugin(ScrollTrigger);
 
