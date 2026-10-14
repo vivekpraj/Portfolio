@@ -1023,7 +1023,7 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
   if(typeof gsap==='undefined'||window.__gsapFailed){__revealAll();return;}
 
   /* skip all GSAP on phones only */
-  if(window.innerWidth<=600){__revealAll();clearTimeout(__gsapTimer);return;}
+  if(window.matchMedia('(max-width:600px)').matches){__revealAll();clearTimeout(__gsapTimer);return;}
 
   gsap.registerPlugin(ScrollTrigger);
 
