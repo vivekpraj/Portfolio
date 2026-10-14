@@ -1002,38 +1002,11 @@ footer p{font-family:var(--mono);font-size:8px;color:var(--ink2);letter-spacing:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" onerror="window.__gsapFailed=true"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" onerror="window.__gsapFailed=true"></script>
 <script>
-/* Safety net — show everything GSAP may have hidden, without killing scroll triggers */
-function __revealAll(){
-  var sel=[
-    '.reveal','.sec','.sec-h',
-    '.d-ai','.d-pm','.dual-featured',
-    '.cs','.exp-row','.sk-dual','.sk-tag',
-    '.end-card','.end-big','.end-tagline','.end-btns'
-  ].join(',');
-  document.querySelectorAll(sel).forEach(function(el){
-    el.style.opacity='1';
-    el.style.transform='none';
-    el.style.clipPath='none';
-  });
-}
-/* Fallback timeout — if GSAP hasn't animated after 3s, reveal everything */
-var __gsapTimer=setTimeout(__revealAll, 3000);
-
-(function(){
-  if(typeof gsap==='undefined'||window.__gsapFailed){__revealAll();return;}
-
-  /* skip all GSAP on phones only */
-  if(window.matchMedia('(max-width:600px)').matches){__revealAll();clearTimeout(__gsapTimer);return;}
-
+window.addEventListener('load',function(){
+  if(typeof gsap==='undefined'||window.__gsapFailed)return;
+  if(window.matchMedia('(max-width:600px)').matches)return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   gsap.registerPlugin(ScrollTrigger);
-
-  /* prefers-reduced-motion check */
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-    __revealAll();
-    return;
-  }
-
-  /* keep 3s timer — __revealAll only sets opacity:1, won't kill scroll triggers */
   try{
 
   /* ── 1. SECTION-LEVEL REVEALS (replaces IntersectionObserver) ── */
@@ -1160,9 +1133,8 @@ var __gsapTimer=setTimeout(__revealAll, 3000);
     });
   });
 
-  }catch(e){__revealAll();}
-
-})();
+  }catch(e){}
+});
 </script>
 </body>
 </html>
